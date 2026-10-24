@@ -1148,14 +1148,14 @@ class Board(spaces.Space):
     """A Board in R^3 used for CtF """
     def __init__(self, shape=None, dtype=np.uint8):
         assert dtype is not None, 'dtype must be explicitly provided. '
-        self.dtype = np.dtype(dtype)
 
         if shape is None:
-            self.shape = (20, 20, NUM_CHANNEL)
+            shape = (20, 20, NUM_CHANNEL)
         else:
             assert shape[2] == NUM_CHANNEL
-            self.shape = tuple(shape)
-        super(Board, self).__init__(self.shape, self.dtype)
+            shape = tuple(shape)
+        # gym>=0.21 exposes shape as a read-only property set by Space.__init__
+        super(Board, self).__init__(shape, np.dtype(dtype))
 
     def __repr__(self):
         return "Board" + str(self.shape)
